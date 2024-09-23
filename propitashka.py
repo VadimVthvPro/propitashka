@@ -187,7 +187,7 @@ def aim(message):
         "SELECT user_height, user_weight,imt, imt_str FROM users WHERE user_id = ? AND date = ?",(message.from_user.id,datetime.datetime.now().strftime('%Y-%m-%d') ))
     height, weight, imt, imt_using_words = cursor.fetchone()
     bot.send_message(message.chat.id,
-                     text='{}, твой вес: {}, твой рост: {}, твой индекс массы тела:{}, и твой вес - это {}. Сечас ты сможешь выбрать свою цель, чтобы я смог помочь тебе с твоим персональным планом питания:'.format(
+                     text='{}, твой вес: {}, твой рост: {}, твой индекс массы тела:{}, и твой вес - это {}. '.format(
                          message.from_user.first_name, weight, height, imt, imt_using_words))
     aim_work(message)
 
@@ -402,16 +402,30 @@ def svodka(message):
             new_sr_w = list(filter(is_not_none, sr_w))
             new_sr_cal = list(filter(is_not_none, sr_cal))
             new_sr_tren = list(filter(is_not_none, sr_tren))
-            avg_b = round(sum(new_sr_b) / len(new_sr_b), 3)
-            avg_g = round(sum(new_sr_g) / len(new_sr_g), 3)
-            avg_u = round(sum(new_sr_u) / len(new_sr_u), 3)
-            avg_training_time = round(sum(new_sr_tren) / len(new_sr_tren), 3)  # Расчет среднего времени тренировок
-            avg_calories_burned = round(sum(new_sr_cal) / len(new_sr_cal), 3)  # Расчет среднего числа сожжённых калорий
+            if sum(new_sr_b) > 0:
+                avg_b = round(sum(new_sr_b) / len(new_sr_b), 3)
+            else:
+                avg_b = 0
+            if sum(new_sr_g)>0:
+                avg_g = round(sum(new_sr_g) / len(new_sr_g), 3)
+            else:
+                avg_g = 0
+            if sum(new_sr_u)> 0:
+                avg_u = round(sum(new_sr_u) / len(new_sr_u), 3)
+            else:
+                avg_u = 0
+            if sum(new_sr_w)>0:
+                avg_w = sum(new_sr_w) / len(new_sr_w) * 300
+            else:
+                avg_w = 0
+
+            avg_training_time = round(sum(new_sr_tren) / len(new_sr_tren), 3) if round(sum(new_sr_tren) / len(new_sr_tren), 3) else 0 # Расчет среднего времени тренировок
+            avg_calories_burned = round(sum(new_sr_cal) / len(new_sr_cal), 3) if round(sum(new_sr_cal) / len(new_sr_cal), 3) else 0  # Расчет среднего числа сожжённых калорий
             bot.send_message(message.chat.id, text=f"""
   {message.from_user.first_name}, за месяц произошли такие изменения:
   твой вес изменился с {weig_1[0]} на {weig_2[0]}, 
   в день ты тренировался {avg_training_time} минут каждый день, сжигая при этом в среднем {avg_calories_burned} килокалорий,
-  в день твои Б/Ж/У были в соотношении {avg_b}/{avg_g}/{avg_u} и выпивалось около {sum(new_sr_w) / len(new_sr_w) * 300} милилитров воды.Я в тебя верю!""",
+  в день твои Б/Ж/У были в соотношении {avg_b}/{avg_g}/{avg_u} и выпивалось около {avg_w} милилитров воды.Я в тебя верю!""",
                              reply_markup=alfamarkup)
         else:
             bot.send_message(message.chat.id, "Нет данных за этот месяц.")
@@ -504,10 +518,10 @@ def svodka(message):
 твой вес изменился с {start_weight} на {end_weight};
 в среднем за месяц ты сжигал {avg_train_cal:.1f} килокалорий на тренировках;
 в  среднем твой рацион составлял {avg_food_cal:.2f} килокалорий
-в начале года твой рацион составлял {round(float(all_data[-1][0]), 3)} килокаларий , а конечное значение {round(float(all_data[0][0]),3)} килокалорий,
+в начале года твой рацион составлял {round(float(all_data[-1][0]), 3) if round(float(all_data[-1][0]), 3) else 0} килокаларий , а конечное значение {round(float(all_data[0][0]),3) if round(float(all_data[0][0]),3) else 0} килокалорий,
 соотношение Б/Ж/У в среднем: {avg_b:.2f}/{avg_g:.2f}/{avg_u:.2f}, 
-в начале года твои Б/Ж/У составляли соотношение {round(all_data[-1][1], 3)}/{round(all_data[-1][2], 3)}/{round(all_data[-1][3], 3)} , а конечное значение {round(all_data[0][1], 3)}/{round(all_data[0][2], 3)}/{round(all_data[0][3], 3)},
-и было выпито в среднем {total_w / len(food_months_with_data) * 300} милилитров воды каждый день.""", reply_markup=alfamarkup)
+в начале года твои Б/Ж/У составляли соотношение {round(all_data[-1][1], 3) if round(all_data[-1][1], 3) else 0}/{round(all_data[-1][2], 3) if round(all_data[-1][2], 3) else 0}/{round(all_data[-1][3], 3) if round(all_data[-1][3], 3) else 0} , а конечное значение {round(all_data[0][1], 3) if round(all_data[0][1], 3) else 0}/{round(all_data[0][2], 3) if round(all_data[0][2], 3) else 0}/{round(all_data[0][3], 3) if round(all_data[0][3], 3) else 0},
+и было выпито в среднем {total_w / len(food_months_with_data) * 300 if total_w / len(food_months_with_data) * 300 else 0} милилитров воды каждый день.""", reply_markup=alfamarkup)
 
 
 @bot.message_handler(content_types=['photo'])
@@ -541,7 +555,7 @@ def new_tren(message):
     aim, cal, sex, user_weight, age, imt = cursor.fetchone()
     tren_aim = message.text
     with GigaChat(
-            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
+            credentials='ТОКЕН',
             verify_ssl_certs=False) as giga:
         tr = giga.chat(
             f"Придумай идеальный план на одну тренировку для {sex} {age} лет весом {weight}, который хотел бы сейчас {tren_aim}")
