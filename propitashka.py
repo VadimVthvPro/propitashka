@@ -14,7 +14,7 @@ from tensorflow.keras import layers  # type: ignore
 from tensorflow.keras.models import Sequential  # type: ignore
 import pathlib
 
-bot = telebot.TeleBot('7239777184:AAEJCJcJx4_c9fuj9pIFKT3RlofrcnVV9Nk', threaded=True)
+bot = telebot.TeleBot('ТОКЕН', threaded=True)
 
 global alfamarkup
 alfamarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -213,7 +213,7 @@ def aim_work(message):
                      text='Для того, чтобы тебе осуществить {}, тебе стоит наладить твоё питание и тренировки.  Бот PROпиташка тебе с этим поможет)) Сейчас сюда придут сообщения с твоими недельными планами тренировок и питания,которые ты так-же сможешь найти в закреплённых сообщениях'.format(
                          aim))
     with GigaChat(
-            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
+            credentials='ТОКЕН',
             verify_ssl_certs=False) as giga:
               global plan_train, plan_pit
               plan_pit= giga.chat(
@@ -246,7 +246,7 @@ def aim_work(message):
 def ai_rec(message):
     meal = message.text
     with GigaChat(
-            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
+            credentials='ТОКЕН',
             verify_ssl_certs=False) as giga:
                 global rec
                 rec= giga.chat(
