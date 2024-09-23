@@ -14,7 +14,7 @@ from tensorflow.keras import layers  # type: ignore
 from tensorflow.keras.models import Sequential  # type: ignore
 import pathlib
 
-bot = telebot.TeleBot('ВАШ_ТОКЕН', threaded=True)
+bot = telebot.TeleBot('7239777184:AAEJCJcJx4_c9fuj9pIFKT3RlofrcnVV9Nk', threaded=True)
 
 global alfamarkup
 alfamarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -210,10 +210,10 @@ def aim_work(message):
                          text='Ваши Б/Ж/У должны быть в соотношении 30/20-25/50-55, и в день вы должны потреблять {} килокалорий'.format(
                              cal + 450), reply_markup=telebot.types.ReplyKeyboardRemove())
     bot.send_message(message.chat.id,
-                     text='Для того, чтобы тебе осуществить {}, тебе стоит наладить твоё питание и тренировки.  Этот мегабот тебе с этим поможет)) Сейчас сюда придут сообщения с твоими недельными планами тренировок и питания,которые ты так-же сможешь найти в закреплённых сообщениях'.format(
-                         message.text))
+                     text='Для того, чтобы тебе осуществить {}, тебе стоит наладить твоё питание и тренировки.  Бот PROпиташка тебе с этим поможет)) Сейчас сюда придут сообщения с твоими недельными планами тренировок и питания,которые ты так-же сможешь найти в закреплённых сообщениях'.format(
+                         aim))
     with GigaChat(
-            credentials='АПИ_ТОКЕН_ГИГАЧАТА',
+            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
             verify_ssl_certs=False) as giga:
               global plan_train, plan_pit
               plan_pit= giga.chat(
@@ -246,7 +246,7 @@ def aim_work(message):
 def ai_rec(message):
     meal = message.text
     with GigaChat(
-            credentials='АПИ_ТОКЕН_ГИГАЧАТА',
+            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
             verify_ssl_certs=False) as giga:
                 global rec
                 rec= giga.chat(
