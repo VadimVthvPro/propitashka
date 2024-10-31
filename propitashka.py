@@ -14,10 +14,8 @@ from tensorflow.keras import layers  # type: ignore
 from tensorflow.keras.models import Sequential  # type: ignore
 import pathlib
 
-bot = telebot.TeleBot('ТОКЕН', threaded=True)
+bot = telebot.TeleBot('7794267764:AAEyN2saMnQP5reyoF681CTAzinofFMfAFg', threaded=True)
 
-global alfamarkup
-alfamarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 conn = sqlite3.connect('pro3.db', check_same_thread=False)
 cursor = conn.cursor()
@@ -150,9 +148,9 @@ def choise_of_mass(message):
     height, sex, age = int(height), str(sex), int(age)
     imt = round(weight / ((height / 100) ** 2), 3)
     imt_using_words = str()
-    if round(imt) < 15:
+    if round(imt) < 15 :
         imt_using_words = 'сильно меньше нормы'
-    if round(imt) in range(15, 18):
+    if round(imt) in range(14, 18):
         imt_using_words = 'Недостаточная масса '
     if round(imt) in range(18, 25):
         imt_using_words = 'Норма'
@@ -192,6 +190,22 @@ def aim(message):
     aim_work(message)
 
 
+global alfamarkup
+alfamarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+btn1 = 'Добавить тренировки'
+btn2 = 'Ввести еду за день'
+btn3 = 'Сводка'
+btn4 = 'Помочь с рецептом'
+btn7 = 'Помочь с тренировкой'
+btn5 = 'Добавить выпитый стаканчик воды'
+btn6 = 'Присоедениться к чату '
+alfamarkup.add(btn1, btn2, btn3)
+alfamarkup.row(btn4)
+alfamarkup.row(btn7)
+alfamarkup.row(btn5)
+alfamarkup.row(btn6)
+
+
 def aim_work(message):
     cursor.execute(
         "SELECT user_aim, cal ,user_sex, user_age, imt, user_weight, user_height FROM users WHERE date = ? AND user_id = ?",
@@ -213,7 +227,7 @@ def aim_work(message):
                      text='Для того, чтобы тебе осуществить {}, тебе стоит наладить твоё питание и тренировки.  Бот PROпиташка тебе с этим поможет)) Сейчас сюда придут сообщения с твоими недельными планами тренировок и питания,которые ты так-же сможешь найти в закреплённых сообщениях'.format(
                          aim))
     with GigaChat(
-            credentials='ТОКЕН',
+            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
             verify_ssl_certs=False) as giga:
               global plan_train, plan_pit
               plan_pit= giga.chat(
@@ -225,18 +239,7 @@ def aim_work(message):
               bot.pin_chat_message(chat_id=message.chat.id, message_id= plan_pit_mes)
               bot.pin_chat_message(chat_id=message.chat.id, message_id= plan_train_mes)
 
-    btn1 = 'Добавить тренировки'
-    btn2 = 'Ввести еду за день'
-    btn3 = 'Сводка'
-    btn4 = 'Помочь с рецептом'
-    btn7 = 'Помочь с тренировкой'
-    btn5 = 'Добавить выпитый стаканчик воды'
-    btn6 = 'Присоедениться к чату '
-    alfamarkup.add(btn1, btn2, btn3)
-    alfamarkup.row(btn4)
-    alfamarkup.row(btn7)
-    alfamarkup.row(btn5)
-    alfamarkup.row(btn6)
+
     mes = bot.send_message(message.chat.id,
                            text='Выданные планы питания и тренировок являются лишь рекоменданиями, которые ты можешь выполнять по желанию. Теперь ты можешь вводить продукты, которые ты сегодня употребил и тренировки, которые ты сегодня прошёл, а в конце дня ты будешь получать отчёт по твоим Б/Ж/У за день и затраченным калориям',
                            reply_markup=alfamarkup)
@@ -246,7 +249,7 @@ def aim_work(message):
 def ai_rec(message):
     meal = message.text
     with GigaChat(
-            credentials='ТОКЕН',
+            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
             verify_ssl_certs=False) as giga:
                 global rec
                 rec= giga.chat(
@@ -422,10 +425,10 @@ def svodka(message):
             avg_training_time = round(sum(new_sr_tren) / len(new_sr_tren), 3) if round(sum(new_sr_tren) / len(new_sr_tren), 3) else 0 # Расчет среднего времени тренировок
             avg_calories_burned = round(sum(new_sr_cal) / len(new_sr_cal), 3) if round(sum(new_sr_cal) / len(new_sr_cal), 3) else 0  # Расчет среднего числа сожжённых калорий
             bot.send_message(message.chat.id, text=f"""
-  {message.from_user.first_name}, за месяц произошли такие изменения:
-  твой вес изменился с {weig_1[0]} на {weig_2[0]}, 
-  в день ты тренировался {avg_training_time} минут каждый день, сжигая при этом в среднем {avg_calories_burned} килокалорий,
-  в день твои Б/Ж/У были в соотношении {avg_b}/{avg_g}/{avg_u} и выпивалось около {avg_w} милилитров воды.Я в тебя верю!""",
+{message.from_user.first_name}, за месяц произошли такие изменения:
+твой вес изменился с {weig_1[0]} на {weig_2[0]}, 
+в день ты тренировался {avg_training_time} минут каждый день, сжигая при этом в среднем {avg_calories_burned} килокалорий,
+в день твои Б/Ж/У были в соотношении {avg_b}/{avg_g}/{avg_u} и выпивалось около {avg_w} милилитров воды.Я в тебя верю!""",
                              reply_markup=alfamarkup)
         else:
             bot.send_message(message.chat.id, "Нет данных за этот месяц.")
@@ -552,10 +555,10 @@ def new_tren(message):
     global tr
     cursor.execute("SELECT user_aim, cal,user_sex,user_weight, user_age, imt FROM users WHERE date = ? AND user_id = ?",
                    (datetime.datetime.now().strftime('%Y-%m-%d'), message.from_user.id))
-    aim, cal, sex, user_weight, age, imt = cursor.fetchone()
+    aim, cal, sex, weight, age, imt = cursor.fetchone()
     tren_aim = message.text
     with GigaChat(
-            credentials='ТОКЕН',
+            credentials='YzY3ZWQ3MmMtN2ZlOC00ZGQzLWE5OGEtOTBjMjdlMGZjMDJiOjQ4NTI4MDM1LTliNjgtNGIwOS1hZjk3LTFkNjU1MDk2NDM4Ng==',
             verify_ssl_certs=False) as giga:
         tr = giga.chat(
             f"Придумай идеальный план на одну тренировку для {sex} {age} лет весом {weight}, который хотел бы сейчас {tren_aim}")
